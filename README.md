@@ -1,11 +1,12 @@
-Prerequisites -> 
+# Prerequisites
+
 Linux, or Windows PC with WSL installed, and version 2 enabled.
 Docker
 Git
 Local php and composer are required, within WSL
 Optionally, chocolatey, a command line utility for windows that simplifies third party package installation
 
-Useful Commands
+## Useful Commands
 
 
 Start (initially build) containers
@@ -13,29 +14,41 @@ Start (initially build) containers
 	
 	
 Stop containers (do this if you have problems, need to restart services, or before turning off or hibernating/suspending your computer)
-	Available globally: docker stop $(ps -aq)
+	Available globally: 
+	
+	docker stop $(ps -aq)
 	
 	
 Show running docker containers (id’s and metadata)
-	Available globally: docker ps
+	Available globally: 
+	
+	docker ps
 	
 	
 Sign into docker environment (php container) as root (should only need this once)
-	Available globally: docker exec -it -u root <container id> bash
+	Available globally: 
+	
+	docker exec -it -u root <container id> bash
 	
 	
 Sign into docker environment (php container) as normal user
-	Available globally: docker exec -it -u root <container id> bash
+	Available globally: 
+	
+	docker exec -it -u root <container id> bash
 	
 	
 Activate wsl/bash (allows use of linux utilities in windows)
-	Available globally: bash or wsl
+	Available globally: 
+	
+	bash or wsl
 	
 	
 Destroy all containers, delete all cached docker images (docker-compose and all files mounted in /src will be preserved, but internal configs will be lost - nuclear option)
-	Available globally, containers must already be stopped: docker system prune -a
+	Available globally, containers must already be stopped: 
+	
+	docker system prune -a
 
-Setup ->
+# Setup
 
 You can use powershell, but I recommend using windows terminal, from the windows store, mainly because of the built-in tab support. Also grab debian, which I’d personally recommend, or ubuntu while you’re there. 
 Once installed, run wsl --set-default-version 2 . This will update/upgrade the embedded linux kernel to an actual, full linux kernel (minus an init system, kernel only), and *should* apply necessary compatibility patches for interfacing with docker. 
