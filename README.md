@@ -6,18 +6,32 @@ Local php and composer are required, within WSL
 Optionally, chocolatey, a command line utility for windows that simplifies third party package installation
 
 Useful Commands
+
+
 	Start (initially build) containers
 From working directory: docker compose up -d
+	
+	
 	Stop containers (do this if you have problems, need to restart services, or before turning off or hibernating/suspending your computer)
 Available globally: docker stop $(ps -aq)
+	
+	
 	Show running docker containers (id’s and metadata)
 Available globally: docker ps
-Sign into docker environment (php container) as root (should only need this once)
+	
+	
+	Sign into docker environment (php container) as root (should only need this once)
 Available globally: docker exec -it -u root <container id> bash
+	
+	
 	Sign into docker environment (php container) as normal user
 Available globally: docker exec -it -u root <container id> bash
+	
+	
 	Activate wsl/bash (allows use of linux utilities in windows)
 Available globally: bash or wsl
+	
+	
 	Destroy all containers, delete all cached docker images (docker-compose and all files mounted in /src will be preserved, but internal configs will be lost - nuclear option)
 	Available globally, containers must already be stopped: docker system prune -a
 
