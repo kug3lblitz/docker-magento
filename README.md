@@ -10,8 +10,6 @@ Docker
 
 Git
 
-Local php and composer are required, within WSL (e.g. apt install php composer)
-
 Optionally, chocolatey, a command line utility for windows that simplifies third party package installation. You could also just run everything in WSL.
 
 ## Useful Commands
@@ -59,7 +57,8 @@ Destroy all containers, delete all cached docker images (docker-compose and all 
 
 # Setup, version 2 (faster)
 
-You can use powershell, but I recommend using windows terminal, from the windows store, mainly because of the built-in tab support. Also grab debian, which I’d personally recommend, or ubuntu while you’re there. 
+You can use powershell, but I recommend using windows terminal, from the windows store, mainly because of the built-in tab support. Also grab debian, which I’d personally recommend, or ubuntu while you’re there. It’s **very important** that whichever terminal you use, it is *always* being started/run “as administrator” during all docker-related tasks, or else you may run into unexpected behavior (i.e. your containers will not finish building).
+
 Once installed, run 
 
     wsl --set-default-version 2 
@@ -88,6 +87,8 @@ and generate a key pair. You will need to provide a string of your choosing to s
 
 Create a working directory, ex local_magento, and cd into it.
 Run wsl in powershell, and then, in the bash shell:
+	
+	sudo apt install curl wget php composer
 
 	curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento.test 2.4.3-p1
 
@@ -103,6 +104,36 @@ Then run:
 
 	bin/magento sampledata:deploy
 	bin/magento setup:upgrade
+Mark has made some scripts to simplify the migration of existing databases into this environment: https://github.com/markshust/docker-magento#existing-projects
+
+THE *NEXT* TIME YOUR COMPUTER IS RESTARTED, CONTAINERS MAY NOT RELOAD
+
+Update: on subsequent startups, cd into working directory, and run bin/start
+This will pretty much take care of the nginx conf stuff in one easy step!
+
+*** Also, super important, be sure you stop all containers and close windows docker (stop the process entirely from the system tray) before shutting down your machine, or you may potentially have serious problems, including loss of work***
+
+---------------------------------------------------------------------------------------------------------------------------
+Original instructions:
+In order to fix this, you’ll need to (per the v1 instructions) log into the php docker container as root, and do the following: 
+
+-apt update && apt upgrade, then apt install sudo
+-change user “app” password
+-add user app to sudoers file w/ visudo
+-rm nginx.conf in /var/www/html
+-cp nginx.example.conf to nginx.conf
+-cd to /etc/nginx, mkdir conf.d
+-cp /var/www/html/nginx.conf conf.d/
+-log out of container, docker stop $(docker ps -aq) docker-compose up -d
+When logging into admin for the first time, you’ll need to create a user with 
+bin/magento admin:user:create
+And you’ll need to disable 2FA with
+bin/magento module:disable Magento_TwoFactorAuth
+bin/magento cache:flush
+
+Seems like there might be a *slight issue with css not being loaded properly via a %template% configuration in luma, console gives mime-type error
+
+---------------------------------------------------------------------------------------------------------------------------
 
 # Setup, version 1
 ### (older instructions, could be useful if you have issues)
