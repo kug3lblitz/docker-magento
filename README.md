@@ -118,13 +118,21 @@ Original instructions:
 In order to fix this, you’ll need to (per the v1 instructions) log into the php docker container as root, and do the following: 
 
 -apt update && apt upgrade, then apt install sudo
+
 -change user “app” password
+
 -add user app to sudoers file w/ visudo
+
 -rm nginx.conf in /var/www/html
+
 -cp nginx.example.conf to nginx.conf
+
 -cd to /etc/nginx, mkdir conf.d
+
 -cp /var/www/html/nginx.conf conf.d/
+
 -log out of container, docker stop $(docker ps -aq) docker-compose up -d
+
 When logging into admin for the first time, you’ll need to create a user with 
 bin/magento admin:user:create
 And you’ll need to disable 2FA with
